@@ -65,7 +65,7 @@ dependencyResolutionManagement {
 
 ```groovy
 dependencies {
-    implementation("com.github.setruth:ComposeM3YangDialog:1.0.0")
+    implementation("com.github.setruth:ComposeM3YangDialog:1.0.1")
 	...
 }
 ```
