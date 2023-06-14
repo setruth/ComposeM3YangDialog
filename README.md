@@ -66,7 +66,8 @@ dependencyResolutionManagement {
 
 ```groovy
 dependencies {
-    implementation("com.github.setruth:ComposeM3YangDialog:1.0.1")
+    //请去仓库的releases中使用最新的版本即可
+    implementation("com.github.setruth:ComposeM3YangDialog:$releases")
 	...
 }
 ```
