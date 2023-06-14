@@ -18,6 +18,7 @@
 ## 介绍
 
 > YangDialog是一个适合Compose Material3的弹窗UI组件，由于官方的DIalog组件功能很少，所以基于基础组件Dialog进行了修改和封装，
+> 哔哩哔哩教程地址 https://www.bilibili.com/video/BV1ZN411k7B1/?share_source=copy_web&vd_source=2cbd021570b82989d2171c3061a31b48
 
 ### 代码示例
 
