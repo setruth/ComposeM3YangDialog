@@ -121,7 +121,7 @@ YangDialog(
 }
 ```
 
-<img src="imgResource\diycontent.gif" style="zoom:25%;" />
+<img src="imgResource\diyContent.gif" style="zoom:25%;" />
 
 ### 自定义底部显示和隐藏
 
@@ -148,7 +148,7 @@ YangDialog(
 }
 ```
 
-<img src="imgResource\diybottom.gif" style="zoom:25%;" />
+<img src="imgResource\diyBottom.gif" style="zoom:25%;" />
 
 ### 展示所有动画
 
