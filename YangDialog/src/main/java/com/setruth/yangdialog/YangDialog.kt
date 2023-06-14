@@ -94,134 +94,134 @@ fun YangDialog(
                         contentColor = colorConfig.contentColor().value
                     ),
                 ) {
-                    Column(
+                    Text(
+                        text = title,
+                        modifier = Modifier.padding(15.dp),
+                        fontWeight = FontWeight.Bold,
+                        color = colorConfig.titleColor().value
+                    )
+                    Box(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(IntrinsicSize.Min)
                             .padding(15.dp),
                     ) {
-                        Text(
-                            text = title,
-                            modifier = Modifier.padding(bottom = 15.dp),
-                            fontWeight = FontWeight.Bold,
-                            color = colorConfig.titleColor().value
-                        )
-                        AnimatedVisibility(
-                            visible = loadingState == YangDialogLoadingState.NOT_LOADING,
-                            enter = expandVertically(expandFrom = Alignment.Bottom) + fadeIn(),
-                            exit = shrinkVertically(shrinkTowards = Alignment.Top) + fadeOut()
-                        ) {
-                            dialogContent()
-                        }
-                        AnimatedVisibility(
-                            visible = loadingState != YangDialogLoadingState.NOT_LOADING,
-                            enter = scaleIn(),
-                            exit = scaleOut()
-                        ) {
-                            Column(
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                                verticalArrangement = Arrangement.Center
+                        Column {
+                            AnimatedVisibility(
+                                visible = loadingState == YangDialogLoadingState.NOT_LOADING,
+                                enter = expandVertically(expandFrom = Alignment.Bottom) + fadeIn(),
+                                exit = shrinkVertically(shrinkTowards = Alignment.Top) + fadeOut()
                             ) {
-                                Row {
-                                    AnimatedVisibility(
-                                        visible = loadingState == YangDialogLoadingState.LOADING,
-                                        enter = scaleIn(),
-                                        exit = scaleOut()
+                                Column {
+                                    dialogContent()
+                                    Spacer(modifier = Modifier.height(24.dp))
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.SpaceBetween
                                     ) {
-                                        Column(
+                                        if (bottomConfig.showCancel().value) {
+                                            TextButton(
+                                                onClick = {
+                                                    onCancel()
+                                                },
+                                            ) {
+                                                Text(bottomConfig.cancelTip().value)
+                                            }
+                                        }
+                                        Spacer(
                                             modifier = Modifier
-                                                .fillMaxWidth(),
-                                            horizontalAlignment = Alignment.CenterHorizontally
-                                        ) {
-                                            CircularProgressIndicator()
+                                                .fillMaxWidth()
+                                                .weight(1f)
+                                        )
+                                        if (bottomConfig.showConfirm().value) {
+                                            TextButton(
+                                                onClick = {
+                                                    onConfirm()
+                                                },
+                                            ) {
+                                                Text(bottomConfig.confirmTip().value)
+                                            }
                                         }
                                     }
-                                    AnimatedVisibility(
-                                        visible = loadingState == YangDialogLoadingState.ERROR,
-                                        enter = scaleIn(),
-                                        exit = scaleOut()
-                                    ) {
-                                        Column(
-                                            modifier = Modifier
-                                                .fillMaxWidth(),
-                                            horizontalAlignment = Alignment.CenterHorizontally
-                                        ) {
-                                            Icon(
-                                                modifier = Modifier.size(50.dp),
-                                                imageVector = Icons.Default.Close,
-                                                contentDescription = loadingTip,
-                                                tint = MaterialTheme.colorScheme.error
-                                            )
-                                        }
-                                    }
-                                    AnimatedVisibility(
-                                        visible = loadingState == YangDialogLoadingState.SUCCESS,
-                                        enter = scaleIn(),
-                                        exit = scaleOut()
-                                    ) {
-                                        Column(
-                                            modifier = Modifier
-                                                .fillMaxWidth(),
-                                            horizontalAlignment = Alignment.CenterHorizontally
-                                        ) {
-                                            Icon(
-                                                modifier = Modifier.size(50.dp),
-                                                imageVector = Icons.Default.Check,
-                                                contentDescription = loadingTip,
-                                                tint = MaterialTheme.colorScheme.primary
-                                            )
-                                        }
-                                    }
-                                }
-                                TextButton(
-                                    enabled = loadingTip != "",
-                                    onClick = { onLoadingTipClick(loadingState) },
-                                ) {
-                                    val textColor = when (loadingState) {
-                                        YangDialogLoadingState.LOADING -> MaterialTheme.colorScheme.onSurface
-                                        YangDialogLoadingState.SUCCESS -> MaterialTheme.colorScheme.primary
-                                        YangDialogLoadingState.ERROR -> MaterialTheme.colorScheme.error
-                                        YangDialogLoadingState.NOT_LOADING -> MaterialTheme.colorScheme.onSurface
-                                    }
-                                    Text(
-                                        text = loadingTip,
-                                        color = textColor
-                                    )
+
                                 }
                             }
                         }
-
-                        Spacer(modifier = Modifier.height(24.dp))
-                        AnimatedVisibility(
-                            visible = loadingState == YangDialogLoadingState.NOT_LOADING,
-                            enter = expandVertically(expandFrom = Alignment.Bottom) + fadeIn(),
-                            exit = shrinkVertically(shrinkTowards = Alignment.Top) + fadeOut()
-                        ) {
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.SpaceBetween
+                        Column {
+                            AnimatedVisibility(
+                                visible = loadingState != YangDialogLoadingState.NOT_LOADING,
+                                enter = scaleIn(),
+                                exit = scaleOut()
                             ) {
-                                if (bottomConfig.showCancel().value) {
-                                    TextButton(
-                                        onClick = {
-                                            onCancel()
-                                        },
-                                    ) {
-                                        Text(bottomConfig.cancelTip().value)
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center
+                                ) {
+                                    Row {
+                                        AnimatedVisibility(
+                                            visible = loadingState == YangDialogLoadingState.LOADING,
+                                            enter = scaleIn(),
+                                            exit = scaleOut()
+                                        ) {
+                                            Column(
+                                                modifier = Modifier
+                                                    .fillMaxWidth(),
+                                                horizontalAlignment = Alignment.CenterHorizontally
+                                            ) {
+                                                CircularProgressIndicator()
+                                            }
+                                        }
+                                        AnimatedVisibility(
+                                            visible = loadingState == YangDialogLoadingState.ERROR,
+                                            enter = scaleIn(),
+                                            exit = scaleOut()
+                                        ) {
+                                            Column(
+                                                modifier = Modifier
+                                                    .fillMaxWidth(),
+                                                horizontalAlignment = Alignment.CenterHorizontally
+                                            ) {
+                                                Icon(
+                                                    modifier = Modifier.size(50.dp),
+                                                    imageVector = Icons.Default.Close,
+                                                    contentDescription = loadingTip,
+                                                    tint = MaterialTheme.colorScheme.error
+                                                )
+                                            }
+                                        }
+                                        AnimatedVisibility(
+                                            visible = loadingState == YangDialogLoadingState.SUCCESS,
+                                            enter = scaleIn(),
+                                            exit = scaleOut()
+                                        ) {
+                                            Column(
+                                                modifier = Modifier
+                                                    .fillMaxWidth(),
+                                                horizontalAlignment = Alignment.CenterHorizontally
+                                            ) {
+                                                Icon(
+                                                    modifier = Modifier.size(50.dp),
+                                                    imageVector = Icons.Default.Check,
+                                                    contentDescription = loadingTip,
+                                                    tint = MaterialTheme.colorScheme.primary
+                                                )
+                                            }
+                                        }
                                     }
-                                }
-                                Spacer(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .weight(1f)
-                                )
-                                if (bottomConfig.showConfirm().value) {
                                     TextButton(
-                                        onClick = {
-                                            onConfirm()
-                                        },
+                                        enabled = loadingTip != "",
+                                        onClick = { onLoadingTipClick(loadingState) },
                                     ) {
-                                        Text(bottomConfig.confirmTip().value)
+                                        val textColor = when (loadingState) {
+                                            YangDialogLoadingState.LOADING -> MaterialTheme.colorScheme.onSurface
+                                            YangDialogLoadingState.SUCCESS -> MaterialTheme.colorScheme.primary
+                                            YangDialogLoadingState.ERROR -> MaterialTheme.colorScheme.error
+                                            YangDialogLoadingState.NOT_LOADING -> MaterialTheme.colorScheme.onSurface
+                                        }
+                                        Text(
+                                            text = loadingTip,
+                                            color = textColor
+                                        )
                                     }
                                 }
                             }
