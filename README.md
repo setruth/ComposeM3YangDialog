@@ -41,7 +41,7 @@
 
 - Jetpack Compose Material3
 - Gradle 8.1.0以上(建议)
-- AGP 8.1.0以上(建议)
+- AGP 8.0.2以上(建议)
 
 ## 引入（Gradle KotlinDSL举例）
 
