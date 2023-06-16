@@ -1,5 +1,6 @@
 package com.setruth.yangdialog.ui.components
 
+import android.util.Log
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -22,13 +23,13 @@ fun CommonDialog(dialogHide: () -> Unit) {
             dialogShow = false
             dialogHide()
         },
-        onConfirm = {
+        bottomConfig = YangDialogDefaults.bottomConfig(
+            confirmActive = false
+        ),
+        onDismissRequest = {
             dialogShow = false
             dialogHide()
         },
-        bottomConfig = YangDialogDefaults.bottomConfig(
-            confirmActive = false
-        )
     ) {
         Text(text = "hello")
     }

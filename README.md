@@ -2,7 +2,6 @@
   - [介绍](#介绍)
     - [代码示例](#代码示例)
     - [特点](#特点)
-    - [缺点](#缺点)
   - [版本环境要求](#版本环境要求)
   - [引入（Gradle KotlinDSL举例）](#引入gradle-kotlindsl举例)
     - [1. 设置仓库源](#1-设置仓库源)
@@ -22,26 +21,25 @@
 
 ### 代码示例
 
-<img src="imgResource\example.gif" style="zoom:25%;" />
+<img src="imgResource\example.gif" alt="例子" with="20%" />
+
+
 
 
 
 ### 特点
 
 - 弹窗一个带有加载动画和基本弹窗结构的UI组件，加载动画包含了常用的三个类型，一个Success显示成功的图标，Error显示错误的图标，Loading为加载中的状态，并且加载状态底部提供文本按钮给用户进行加载状态的操作。
-- 虽然是一个封装过的弹窗框架，但是提供了许多自定义的部分，比如自定义背景色，内容颜色，标题颜色，底部是否显示确认或者取消按钮等，根据google官方Material3控件属性的设置习惯，使用单例来配置颜色内容等属性，尽可能减少过多的学习成本。
-- 弹窗的中间主要内容是提供组合函数让用户自定义展示使用的，并不会干扰弹窗的主要展示部分，可以自定义自己想显示的内容/
+- 虽然是一个封装过的弹窗框架，但是提供了许多自定义的部分，比如自定义背景色，内容颜色，标题颜色，底部是否显示确认或者取消按钮等，根据google官方Material3控件属性的设置习惯，使用单例来配置颜色内容等属性，遮罩的点击回调，尽可能减少过多的学习成本。
+- 弹窗的中间主要内容是提供组合函数让用户自定义展示使用的，并不会干扰弹窗的主要展示部分，可以自定义自己想显示的内容
 - 所有的动画都是已经设置好的，无需过多管理，使用AnimatedVisibility实现动画的各种情况，尽可能的让体验更加的接近原生，而且是根据最基础的Dialog组件进行扩展，所以不会出现太多过多封装造成的性能问题。
-
-### 缺点
-
-- 未提供弹窗边缘点击的回调，也就是无法设置点击弹窗以外的位置来关闭，只能通过弹窗中的回调事件来关闭
 
 ## 版本环境要求
 
 - Jetpack Compose Material3
 - Gradle 8.1.0以上(建议)
 - AGP 8.0.2以上(建议)
+- 最小SDK 26
 
 ## 引入（Gradle KotlinDSL举例）
 
@@ -66,7 +64,7 @@ dependencyResolutionManagement {
 
 ```groovy
 dependencies {
-    //请去仓库的releases中使用最新的版本即可
+    //请去仓库的releases中使用最新的版本即可(建议一直最新版本当前文档版本1.0.4)
     implementation("com.github.setruth:ComposeM3YangDialog:$releases")
 	...
 }
@@ -77,24 +75,28 @@ dependencies {
 ###  简单使用
 
 ```kotlin
-var dialogShow by remember {
-    mutableStateOf(true)
-}
+ var dialogShow by remember {
+     mutableStateOf(true)
+ }
 YangDialog(
-    title = "这是普通弹窗",//自定义标题内容
-    isShow = dialogShow,//通过isShow设置是否显示
-    onCancel = {
+    title = "这是普通弹窗",
+    isShow = dialogShow,//通过isShow展示或者隐藏dialog
+    onCancel = {//取消选项的回调
         dialogShow = false
-    },//取消按钮点击的回调
-    onConfirm = {
+    },
+    //底部设置
+    bottomConfig = YangDialogDefaults.bottomConfig(
+        confirmActive = false //不激活确认选项 
+    ),
+    onDismissRequest = { //遮罩层点击的回调
         dialogShow = false
-    }//取消按钮点击的回调
+    },
 ) {
-    Text(text = "hello")//显示的内容
+    Text(text = "hello")
 }
 ```
 
-<img src="imgResource\common.gif" style="zoom:25%;" />
+<img src="imgResource\commonDialog.gif" alt="例子" with="20%" />
 
 
 
@@ -123,7 +125,7 @@ YangDialog(
 }
 ```
 
-<img src="imgResource\diyContent.gif" style="zoom:25%;" />
+<img src="imgResource\diyContent.gif" alt="例子" with="20%" />
 
 ### 自定义底部显示和隐藏
 
@@ -150,7 +152,7 @@ YangDialog(
 }
 ```
 
-<img src="imgResource\diyBottom.gif" style="zoom:25%;" />
+<img src="imgResource\diyBottom.gif" alt="例子" with="20%" />
 
 ### 展示所有动画
 
@@ -203,5 +205,5 @@ YangDialog(
 )
 ```
 
-<img src="imgResource\allLoading.gif" style="zoom:25%;" />
+<img src="imgResource\allState.gif" alt="例子" with="20%" />
 

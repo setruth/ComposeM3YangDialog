@@ -4,19 +4,15 @@ package com.setruth.yangdialog
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
-import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -42,6 +38,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 
 /**
  * @author setruth
@@ -80,40 +77,50 @@ fun YangDialog(
     dialogContent: @Composable () -> Unit = {},
 ) {
     if (isShow) {
-        Dialog(onDismissRequest = { onDismissRequest() }) {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Card(
-                    modifier = Modifier
+        Dialog(
+            onDismissRequest = { onDismissRequest() },
+            properties = DialogProperties(
+                usePlatformDefaultWidth = false
+            )
+        ) {
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .padding(horizontal = 24.dp, vertical = 20.dp),
+                shape = MaterialTheme.shapes.large,
+                colors = CardDefaults.cardColors(
+                    containerColor = colorConfig.containerColor().value,
+                    contentColor = colorConfig.contentColor().value
+                ),
+            ) {
+                Column(
+                    Modifier
                         .fillMaxWidth()
-                        .wrapContentHeight()
-                        .padding(10.dp)
-                        .animateContentSize(),
-                    shape = MaterialTheme.shapes.large,
-                    colors = CardDefaults.cardColors(
-                        containerColor = colorConfig.containerColor().value,
-                        contentColor = colorConfig.contentColor().value
-                    ),
-                ) {
+                        .padding(15.dp)) {
                     Text(
+                        modifier = Modifier.padding(horizontal = 8.dp),
                         text = title,
-                        modifier = Modifier.padding(15.dp),
                         fontWeight = FontWeight.Bold,
                         color = colorConfig.titleColor().value
                     )
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(IntrinsicSize.Min)
-                            .padding(15.dp),
+                            .padding(top = 16.dp)
+                            .animateContentSize(),
                     ) {
+                        //内容
                         Column {
                             AnimatedVisibility(
                                 visible = loadingState == YangDialogLoadingState.NOT_LOADING,
-                                enter = expandVertically(expandFrom = Alignment.Bottom) + fadeIn(),
-                                exit = shrinkVertically(shrinkTowards = Alignment.Top) + fadeOut()
+                                enter =  fadeIn(),
+                                exit =  fadeOut()
                             ) {
                                 Column {
-                                    dialogContent()
+                                    Box(Modifier.padding(horizontal = 8.dp)) {
+                                        dialogContent()
+                                    }
                                     Spacer(modifier = Modifier.height(24.dp))
                                     Row(
                                         modifier = Modifier.fillMaxWidth(),
@@ -146,9 +153,12 @@ fun YangDialog(
                                         }
                                     }
 
+
+
                                 }
                             }
                         }
+                        //加载动画部分
                         Column {
                             AnimatedVisibility(
                                 visible = loadingState != YangDialogLoadingState.NOT_LOADING,
@@ -235,6 +245,7 @@ fun YangDialog(
     }
 }
 
+
 /**
  * 弹窗的配置内容
  */
@@ -299,8 +310,8 @@ class YangDialogBottomConfig internal constructor(
     private val showConfirm: Boolean,
     private val confirmTip: String,
     private val cancelTip: String,
-    private val cancelActive:Boolean,
-    private val confirmActive:Boolean,
+    private val cancelActive: Boolean,
+    private val confirmActive: Boolean,
 ) {
     @Composable
     internal fun showConfirm(): State<Boolean> {
@@ -321,10 +332,12 @@ class YangDialogBottomConfig internal constructor(
     internal fun cancelTip(): State<String> {
         return rememberUpdatedState(cancelTip)
     }
+
     @Composable
     internal fun cancelActive(): State<Boolean> {
         return rememberUpdatedState(cancelActive)
     }
+
     @Composable
     internal fun confirmActive(): State<Boolean> {
         return rememberUpdatedState(confirmActive)
