@@ -124,6 +124,7 @@ fun YangDialog(
                                                 onClick = {
                                                     onCancel()
                                                 },
+                                                enabled = bottomConfig.cancelActive().value
                                             ) {
                                                 Text(bottomConfig.cancelTip().value)
                                             }
@@ -138,6 +139,7 @@ fun YangDialog(
                                                 onClick = {
                                                     onConfirm()
                                                 },
+                                                enabled = bottomConfig.confirmActive().value
                                             ) {
                                                 Text(bottomConfig.confirmTip().value)
                                             }
@@ -229,8 +231,6 @@ fun YangDialog(
                     }
                 }
             }
-
-
         }
     }
 }
@@ -253,12 +253,16 @@ object YangDialogDefaults {
         showConfirm: Boolean = true,
         confirmTip: String = "确认",
         cancelTip: String = "取消",
+        cancelActive: Boolean = true,
+        confirmActive: Boolean = true,
     ): YangDialogBottomConfig =
         YangDialogBottomConfig(
             showCancel,
             showConfirm,
             confirmTip,
             cancelTip,
+            cancelActive,
+            confirmActive
         )
 
     /**
@@ -295,6 +299,8 @@ class YangDialogBottomConfig internal constructor(
     private val showConfirm: Boolean,
     private val confirmTip: String,
     private val cancelTip: String,
+    private val cancelActive:Boolean,
+    private val confirmActive:Boolean,
 ) {
     @Composable
     internal fun showConfirm(): State<Boolean> {
@@ -314,6 +320,14 @@ class YangDialogBottomConfig internal constructor(
     @Composable
     internal fun cancelTip(): State<String> {
         return rememberUpdatedState(cancelTip)
+    }
+    @Composable
+    internal fun cancelActive(): State<Boolean> {
+        return rememberUpdatedState(cancelActive)
+    }
+    @Composable
+    internal fun confirmActive(): State<Boolean> {
+        return rememberUpdatedState(confirmActive)
     }
 }
 

@@ -43,7 +43,6 @@ class MainActivity : ComponentActivity() {
                 ShowDialogType.DIYContent -> DIYContentDialog {
                     showDialogState = ShowDialogType.No
                 }
-
                 ShowDialogType.BottomHide -> BottomDIYDialog {
                     showDialogState = ShowDialogType.No
                 }

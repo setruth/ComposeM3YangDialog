@@ -7,6 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.setruth.yangdialog.YangDialog
+import com.setruth.yangdialog.YangDialogDefaults
 
 
 @Composable
@@ -24,7 +25,10 @@ fun CommonDialog(dialogHide: () -> Unit) {
         onConfirm = {
             dialogShow = false
             dialogHide()
-        }
+        },
+        bottomConfig = YangDialogDefaults.bottomConfig(
+            confirmActive = false
+        )
     ) {
         Text(text = "hello")
     }
